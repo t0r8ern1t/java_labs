@@ -79,15 +79,23 @@ public class Main {
         System.out.println(Arrays.toString(res) + "\n");
     }
 
-    //TODO
     public static void problem3(){
         // найти максимальную сумму подмассива
         // алгоритм кадане
-        System.out.print("№3\nВведите массив, разделяя элементы пробелом: ");
+        System.out.print("№3\n");
+        System.out.println("Введите длину массива и элементы, разделяя пробелом:");
         int[] arr = getOneArr();
-        //int[] max_subarr = new;
-        int maxsum = 0;
-
+        int maxsum = 0; // максимальный суммарный подмассив
+        int curr_maxsum = 0; // максимальная сумма до данного элемента
+        System.out.println(arr);
+        for (int i: arr){
+            curr_maxsum += i;
+            curr_maxsum = Integer.max(0, curr_maxsum);
+            maxsum = Integer.max(maxsum, curr_maxsum);
+            System.out.print(curr_maxsum + "\n");
+            System.out.print(maxsum + "\n");
+        }
+        System.out.print(maxsum + "\n");
     }
 
     // ввод с консоли двумерного массива для задач 4, 6, 7
@@ -142,9 +150,11 @@ public class Main {
         int a = 0;
         int b = 0;
         boolean flag = false;
-        Arrays.sort(arr);
+        Arrays.sort(arr); // сортируем массив по возрастанию
         for (int i = arr.length - 1; i > 0; --i){
             int j = 0;
+            // начинаем прибавлять к наибольшему элементу наименьшие пока сумма не превысит искомое число
+            // повторяем для остальных элементов прибавляя к наибольшим наименьшее
             while (arr[j] + arr[i] < sum && j < arr.length - 1){
                 j += 1;
             }
@@ -184,13 +194,13 @@ public class Main {
         int[][] arr = getDoubleArr();
         int rows = arr.length;
         int cols = arr[0].length;
-        int sum;
+        int max;
         for (int i = 0; i < rows; ++i){
-            sum = 0;
+            max = -1000000000;
             for (int j = 0; j < cols; ++j){
-                sum += arr[i][j];
+                max = Integer.max(max, arr[i][j]);
             }
-            System.out.print("Длина " + (i+1) + "й строки равна " + sum + "\n");
+            System.out.print("Максимальный элемент " + (i+1) + "й строки равен " + max + "\n");
         }
     }
 
@@ -203,9 +213,10 @@ public class Main {
         //problem1();
         //problem2();
         //problem4();
+        //problem3();
         //problem5();
         //problem6();
-        //problem7();
+        problem7();
         //problem8();
     }
 }
