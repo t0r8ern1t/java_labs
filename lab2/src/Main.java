@@ -137,7 +137,6 @@ public class Main {
         }
         System.out.print("Перевернутый массив: " + "\n");
         printDoubleArr(rotated);
-
     }
 
     public static void problem5(){
@@ -205,8 +204,19 @@ public class Main {
     }
 
     public static void problem8(){
-        System.out.print("№8\nЗадача удивительным образом совпадает с №4, поэтому полюбуемся на нее еще раз\n\n");
-        problem4();
+        // повернуть массив против часовой стрелки на 90 градусов
+        System.out.print("№8\n");
+        int[][] arr = getDoubleArr();
+        int rows = arr[0].length; // кол-во строк в перевернутом массиве
+        int cols = arr.length; // кол-во столбцов в перевернутом массиве
+        int[][] rotated = new int[rows][cols];
+        for (int i = 0; i < rows; ++i){
+            for (int j = 0; j < cols; ++j){
+                rotated[i][j] = arr[j][rows - i - 1];
+            }
+        }
+        System.out.print("Перевернутый массив: " + "\n");
+        printDoubleArr(rotated);
     }
 
     public static void main(String[] args) {
@@ -216,7 +226,7 @@ public class Main {
         //problem3();
         //problem5();
         //problem6();
-        problem7();
+        //problem7();
         //problem8();
     }
 }
