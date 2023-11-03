@@ -20,6 +20,7 @@ public class Cinema {
         seances_rooms = new ArrayList<>();
     }
 
+    // добавление зала, фильма и сеанса
     public void add_room(){
         System.out.println("Введите номер зала и количество рядов и мест в каждом (предположим, зал прямоугольный)");
         Scanner in = new Scanner(System.in);
@@ -41,7 +42,6 @@ public class Cinema {
         movies.add(new Movie(title, last_id+1, 1));
         System.out.println("Фильм добавлен");
     }
-
     public void add_seance() {
         System.out.println("Выберите зал");
         for (Room room : rooms){
@@ -76,11 +76,13 @@ public class Cinema {
         seances.add(new Seance( last_id+1, curr_movie, curr_room, start_time, end_time));
         System.out.println("Сеанс добавлен");
     }
+    // получение списка всех фильмов, залов и сеансов
     public void get_all_movies(){
         if (movies.isEmpty()){
             System.out.println("Фильмов нет :(");
         }
         else{
+            System.out.println("Список фильмов:");
             for (Movie movie : movies) {
                 System.out.print(movie.get_title() + "\n");
             }
@@ -91,6 +93,7 @@ public class Cinema {
             System.out.println("Залов нет :(");
         }
         else{
+            System.out.println("Список залов:");
             for (Room room : rooms) {
                 room.get_room();
             }
@@ -101,11 +104,42 @@ public class Cinema {
             System.out.println("Сеансов нет :(");
         }
         else{
+            System.out.println("Список сеансов:");
             for (Seance seance : seances){
                 seance.get_info();
             }
         }
     }
+    // ближайший сеанс
+    public void get_closest_seance(){
+        System.out.println("Сколько сейчас времени?");
+        Scanner in = new Scanner(System.in);
+        String[] time = in.nextLine().trim().split("[.,: ]");
+        int curr_hours = Integer.parseInt(time[0]);
+        int curr_minutes = Integer.parseInt(time[1]);
+        Seance closest = new Seance();
+        for (Seance seance : seances){
+            String[] seance_time = seance.get_start().trim().split("[.]");
+            int seance_hours = Integer.parseInt(seance_time[0]);
+            int seance_minutes = Integer.parseInt(seance_time[1]);
+            if (seance_hours > curr_hours || (seance_hours == curr_hours && seance_minutes >= curr_minutes)) {
+                String[] closest_time = closest.get_start().trim().split("[.]");
+                int closest_hours = Integer.parseInt(closest_time[0]);
+                int closest_minutes = Integer.parseInt(closest_time[1]);
+                if (seance_hours < closest_hours || (seance_hours == closest_hours && seance_minutes <= closest_minutes)) {
+                    closest = seance;
+                }
+            }
+        }
+        if (closest.get_id() == -1){
+            System.out.println("Сегодня сеансов больше нет :(");
+        }
+        else {
+            System.out.println("Ближайший сеанс:");
+            closest.get_info();
+        }
+    }
+    // покупка билета
     public void buy_ticket(){
         System.out.println("Выберите номер сеанса:");
         get_all_seances();
@@ -113,15 +147,16 @@ public class Cinema {
         int seance_num = in.nextInt();
         System.out.println("Выберите место, введите ряд и номер");
         seances.get(seance_num).get_room().get_room();
-        int row = in.nextInt();
-        int col = in.nextInt();
-        boolean flag = seances.get(seance_num).get_room().take_seat(row, col);
+        boolean flag = false;
         while (!flag) {
-            row = in.nextInt();
-            col = in.nextInt();
+            System.out.println("После покупки вы вернетесь в меню. Чтобы вернуться в меню, не покупая билет, введите -1");
+            int row = in.nextInt();
+            if (row == -1){ return; }
+            int col = in.nextInt();
             flag = seances.get(seance_num).get_room().take_seat(row, col);
         }
     }
+    // сохранение данных (для автосохранения)
     public void save_to_file(){
         // сохраняем фильмы
         try(FileWriter writer = new FileWriter("movies.txt", false))
@@ -178,6 +213,7 @@ public class Cinema {
         }
         System.out.println("Сохранено");
     }
+    // автоматическое чтение из файла последних данных
     public void read_from_file(){
         // читаем фильмы
         try(Scanner scanner = new Scanner(new File("movies.txt")))
@@ -251,7 +287,7 @@ public class Cinema {
             System.out.println(ex.getMessage());
         }
     }
-
+    // очистка сохранения
     public void clear_files(){
         try {
             FileWriter pw = new FileWriter("movies.txt");

@@ -1,3 +1,5 @@
+import static java.lang.Math.*;
+
 public class Room {
     // id - уникальный номер, используется для сопоставления зала и сеанса
     // type - тип зала, тк в одном зале может быть несколько сеансов
@@ -5,20 +7,22 @@ public class Room {
     private int type;
     private Seat[][] seats;
 
-    //создаем зал размером n x m все места свободны
+    //создаем зал размером n x m все места свободны и задаем цену в зависимости от удаленности места от края зала
     public Room(int id, int type, int rows, int cols){
         this.id = id;
         this.type = type;
         this.seats = new Seat[rows][cols];
         for (int i = 0; i < rows; i++){
             for (int j = 0; j < cols; j++){
-                this.seats[i][j] = new Seat();
+                int koef = min(rows-i+1, i+1) * min(cols-j+1, j+1);
+                this.seats[i][j] = new Seat(koef*10);
             }
         }
     }
+    //проверка того занято ли место и соответствующий ответ пользователю
     public boolean take_seat(int row, int col){
         if (seats[row][col].is_taken() == 1){
-            System.out.println("Место занято");
+            System.out.println("Место занято, выберите другое");
             return false;
         }
         else {
@@ -28,7 +32,7 @@ public class Room {
             return true;
         }
     }
-
+    // заполнение мест (для загрузки из файла)
     public void fill_seats(int row, int col){
         seats[row][col].take_seat();
     }

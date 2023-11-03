@@ -7,6 +7,11 @@ public class Seance {
     private String end;
     private int id;
 
+    public Seance(){
+        this.id = -1;
+        this.start = "25.60";
+        this.end = "25.60";
+    }
     public Seance(int id, Movie movie, Room room, String start, String end){
         this.id = id;
         this.movie = movie;

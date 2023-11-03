@@ -1,4 +1,4 @@
-// TODO стоимость каждого билета считается по расположению в зале и ценовому коэффициенту фильма
+// TODO стоимость каждого билета считается по ценовому коэффициенту фильма
 
 public class Seat {
     private int price;
@@ -11,6 +11,9 @@ public class Seat {
     public Seat(int price){
         this.price = price;
         this.taken = 0;
+    }
+    public void set_price(int koef){
+        price *= koef;
     }
     public void take_seat(){
         taken = 1;

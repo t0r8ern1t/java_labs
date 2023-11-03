@@ -1,5 +1,6 @@
 import java.util.Scanner;
-import java.io.*;
+
+// общая структура меню, все используемые методы описаны в классе Cinema
 public class Menu {
     private Cinema cinema;
     public Menu(int access){
@@ -49,7 +50,7 @@ public class Menu {
             //посетитель
             case 2:
                 System.out.println("Доступные фильмы - 1");
-                // TODO System.out.println("Ближайшие сеансы - 2");
+                System.out.println("Ближайшие сеансы - 2");
                 System.out.println("Все сеансы - 3");
                 System.out.println("Купить билет - 4;");
                 System.out.println("Смена режима доступа - 0");
@@ -62,6 +63,7 @@ public class Menu {
                             cinema.get_all_movies();
                             break;
                         case 2:
+                            cinema.get_closest_seance();
                             break;
                         case 3:
                             cinema.get_all_seances();
