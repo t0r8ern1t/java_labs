@@ -9,7 +9,6 @@ import Figures.Rook;
 import java.util.ArrayList;
 
 public class Board {
-    //TODO: Список фигур и начальное положение всех фигур
     private Figure  fields[][] = new Figure[8][8];
     private ArrayList<String> takeWhite = new ArrayList(16);
     private ArrayList<String> takeBlack = new ArrayList(16);
@@ -190,8 +189,8 @@ public class Board {
     public boolean checkmate_check(){
         char kingColor = this.getColorGaming();
         String position = get_king_position(kingColor);
-        int kingRow = position.charAt(0);
-        int kingCol = position.charAt(1);
+        int kingRow = Character.getNumericValue(position.charAt(0));
+        int kingCol = Character.getNumericValue(position.charAt(1));
         Figure poor_king = fields[kingRow][kingCol];
 
         for (int row = kingRow - 1; row < kingRow + 1; ++row){
